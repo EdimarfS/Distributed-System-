@@ -1,0 +1,27 @@
+ //FIRST WAY 
+class C extends Thread {
+	public void run()
+	{
+		//...
+	
+	}
+
+
+} 
+ 
+ 
+ 
+ //SECOND WAY
+ 
+ class C implements Runnable {
+	public void run(){
+		//...
+	
+	
+	}
+	
+ }
+ 
+C c = new C();
+Thread t = new Thread(c);
+t.start();
