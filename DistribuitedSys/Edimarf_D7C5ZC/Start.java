@@ -4,130 +4,132 @@ import java.util.Comparator;
 
 
 
-//Car class
-
+//Car class 
 class Car{
 	String direction;
 	long time;
 	int id;
 	
 	Car(String direction,long time,int id){
-		direction = direction ;
-		time = time;
-		id = id;
+		this.direction = direction ;
+		this.time = time;
+		this.id = id;
 	}
 	
 	String getDirection_(){
 		return direction;
 	}
-	long getTime_(){
+	long getTime(){
 		return time;
 	}
-	int getID_(){
+	int getID(){
 		return id;
 	}
 	
 	 public String toString(){
-		return "car :" + id +" taken time: " + getTime_();
+		return "car :" + getID() +" taken time: " + getTime();
 	}
 }
 
-//Quee class
+
+//Que Class 
 class Queue extends Thread {
 	
 	PriorityQueue<Car> traffic;
 	String direction;
 	Passage passage;
-	int carNumber;
+	int carNm;
 	
-	Queue(String direction ,int N, Passage passage){
-		direction = direction;
-		passage = passage;
-		carNumber=N;
-		
+	Queue(String dir ,int N, Passage p){
+		direction = dir;
+		passage = p;
+		carNm=N;
 		Comparator<Car> compare = new Comparator<Car>() {
 			
             @Override
             public int compare(Car c1, Car c2) {
-                return (int)(c1.getTime_() - c2.getTime_());
+                return (int)(c1.getTime() - c2.getTime());
             }
         };
 		traffic = new PriorityQueue<>(compare);
 		
-		
 	}
 
-
-//
-public  void  attempPass(){
+public  void  passing(){
 
 	synchronized(passage){
+		//System.out.println(Thread.getName());
 		Car tmp = traffic.poll();
 		try{
-			this.sleep(tmp.getTime_());
+			this.sleep(tmp.getTime());
 			
 		 }catch(InterruptedException e){
 			 
 			 System.out.println(" interrupted ");
 		 }
 		
-		passage.carpassing(tmp);
-}
+		passage.carPassing_Info(tmp);
+	}
 
 }
-
-//Run function, overried from Runnable 
-public void run(){
-while (!traffic.isEmpty()) {
-
-		this.attempPass();
-
-   
-}
-
-}
+	public void run(){
+		while (!traffic.isEmpty()) { //Passsage
+            this.passing();
+        }
+	
+	}
 	
 	void  populate (){
-		for(int i =0 ;i<carNumber;){
+		for(int i =0 ;i<carNm;){
 			Car tmpcar = new Car(direction,(int)(Math.random()*2000),i++);
 			traffic.add(tmpcar);
-			System.out.println(tmpcar + " comming from " + direction);
+			System.out.println(tmpcar+" comming from "+direction);
 		}
 	}
 }
 
-
-//Passgae class 
 class Passage {
 
 	Passage(){
 		
 	}
 	
-	 void carpassing(Car car){
+	 void carPassing_Info(Car car){
 		System.out.println(car +" from "+car.getDirection_()+ " is passing the Passage " );
 		
 	}
 }
 
 
-//Main class 
-public class Main{
+
+public class Start{
 	public static void main(String[] args){
 		
-		Passage p = new Passage();
+		Passage passage = new Passage();
+
+		Queue queue1 = new Queue("right" ,12 , passage);
+		Queue queue2 = new Queue("left",19, passage);
 		
-		Queue q1 = new Queue("left" ,11 , p);
-		Queue q2 = new Queue("right",13, p);
-		
-		q1.populate();
-		q2.populate();
-		
-		q1.start();
-		q2.start();
+		queue1.populate();
+		queue2.populate();
+
+		queue1.start();
+		queue2.start();
 		
 		
 	}
 }
 
 
+
+
+
+
+
+/*
+
+  Name: Edimarf Satumbo
+
+  Neptun code: D7C5ZC
+
+*/

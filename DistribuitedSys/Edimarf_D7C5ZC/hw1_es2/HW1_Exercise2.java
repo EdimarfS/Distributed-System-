@@ -75,3 +75,20 @@ public class HW1_Exercise2{
 
 	}
 }
+
+
+
+/*
+
+  Name: Edimarf
+  
+  Neptun code: D7C5ZC
+
+*/
+
+ 
+
+
+
+
+
